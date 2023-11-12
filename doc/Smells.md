@@ -126,4 +126,139 @@ If you find a code smell that is not on this list, please add it to your report.
 
 ## Code Smells Report
 
-*TODO: Replace this note with your report*
+0.  Magic Numbers at `src/mbrot_fractal.py` [lines 237, 239, 243, etc]
+    *   The number `512` is used a lot
+    *   ```python
+	canvas = Canvas(window, width=512, height=512, bg='#000000')
+	
+	canvas.create_image((256, 256), image=img, state="normal")
+	
+	pixelsize = abs(maxx - minx) / 512
+	```
+    *   The number is the dimensions (in pixels) of the tk window. Replace with var `pixels = 512`.
+
+1.  Global variable at `src/mbrot_fractal.py` [line 165]
+    *   Calls a global`TWO` which is also redundant as `TWO: int = 2`
+    *   ```python
+	global TWO
+	```
+    *   It can be deleted and replaced with an integer `2`
+
+2.  Poorly-named identifiers at `pheonix_fractal.py` [line 128]
+    *   all the variables in the function are single characters with no context  for what they are.
+    *   ```python
+	def makePictureOfFractal(f, i, e, w, g, p, W, a, b, s):
+	```
+    *   Most of them aren't used at all, so delete those. Then rename the rest (ex: `f` refers to what part of the dictionary is being used)
+
+3.  Bad Comment at `main.py` [lines 80-110]
+    *   As beautiful as it is, the "art" is going to get in the way if any code needs to be changed in these lines
+    *   ```python
+    print("ERROR:", sys.argv[1], "is not a valid fractal")    #
+    print("Please choose one of the following:")             ###
+    quit = False                                           #######
+    next = ''                                              #######
+    iter = 0                                                #####
+    while not quit:                             #     ## ########### ###
+        next = PHOENX[iter]                      ### #################### ## #
+        print("\t%s" % next)                      ###########################
+                                              # ############################
+        if PHOENX[iter] == 'shrimp-cocktail': ################################
+            break                            ####################################
+                            #    ## #       ###################################
+        else:               ##########     ######################################
+            iter += 1     ##############   ####################################
+                     ########################################################
+              ######################################## CODE IS ART #########
+                     ########################################################
+    exit = None          ############################## (c) 2023 #############
+    i = 0                 ##############   #####################################
+    i = 0                   ##########     ####################################
+    fractal = ''            #    ## #       ####################################
+                                             #################################
+    while not exit:                          ################################
+        print("\t" + MBROTS[i])               #  ############################
+        if PHOENX[iter] =='shrimp-cocktail':    ######################### ####
+            if MBROTS[i]  == 'starfish':       ### #  ## ##############   #
+                                              #             #####
+                i = i + 1                                  #######
+                exit = PHOENX[iter] =='shrimp-cocktail'    #######
+                i -= 1 #need to back off, else index error   ###
+                exit = exit and MBROTS[i]  == 'starfish'      #	
+	```
+    *   Move the artwork to the bottom of the file so it doesnt get in the way but can still be apreaciated.
+
+4.  Too many arguments at `phoenix_fractal.py` [line 128]
+    *   Most of the arguments are never used.
+    *   ```python
+	def makePictureOfFractal(f, i, e, w, g, p, W, a, b, s):
+	```
+    *   `i, e, g, a, b` are never used, so they are probably ok to delete. `s` references a global, which is a different problem.
+
+5.  TOOOOO Long at `phoenix_fractal.py` [lines 128-214]
+    *   Huge function. Even has a TODO saying its way too long:
+    *   ```python
+	# Its almost 100 lines, so Ill just copy where it admits to being long:
+	# TODO: Sometimes I wonder whether some of my functions are trying to do
+    	#       too many different things... this is the correct part of the
+    	#       program to create a GUI window, right?
+	```
+    *   This can be split into multiple parts. A lot of the code is redundent anyway, so that will shorten it too.
+
+6.  Redundant code at `pheonix_fractal.py` [lines 159-161]
+    *   The same line of code repeated 3 times because "Larry" did it.
+    *   ```python
+	tk_Interface_PhotoImage_canvas_pixel_object.pack()  # This seems repetitive
+    	tk_Interface_PhotoImage_canvas_pixel_object.pack()  # But it is how Larry wrote it the tutorial
+    	tk_Interface_PhotoImage_canvas_pixel_object.pack()  # Larry's a smart guy.  I'm sure he has his reasons.
+	```
+    *   It only needs to pack once, delete the other 2.
+
+7.  Too Complex at `mbrot_fractal.py` [lines 168-185]
+    *   Too many nested if/ifelse that I don't want to look at it.
+    *	```
+	    if abs(z) > TWO:
+                z = float(TWO)
+                import builtins
+                len = builtins.len
+                if iter >= len(palette):
+                    iter = len(palette) - 1
+                return palette[iter]
+            elif abs(z) < TWO:
+                continue
+            elif abs(z) > seven:
+                print("You should never see this message in production", file=sys.stderr)
+                continue
+                break
+            elif abs(z) < 0:
+                print(f"This REALLY should not have happened! z={z} iter={iter} MAX_ITERATIONS={MAX_ITERATIONS}", file=sys.stderr)
+                sys.exit(1)
+            else:
+                pass
+	```
+    *   Do the bad cases first, exiting (`if abs(z) > 7 or abs(z) < 0:`) then do the good cases, else pass.
+
+8.  Spaghetti at `file` [lines 275-285]
+    *   The code keeps updating variabls is strange ways, then returns a string by turning the vars into lists and then joining them?
+    *   ```python
+	def pixelsWrittenSoFar(rows, cols):
+    	portion = (512 - rows) / 512
+    	pixels = (512 - rows) * 512
+    	status_percent = '{:>4.0%}'.format(portion)
+    	status_bar_width = 34
+    	status_bar = '=' * int(status_bar_width * portion)
+    	status_bar = '{:<33}'.format(status_bar)
+    	# print(f"{pixels} pixels have been output so far")
+    	# return pixels
+    	# return '[' + status_percent + ' ' + status_bar + ']'
+    	return ''.join(list(['[', status_percent, ' ', status_bar, ']']))
+	```
+    *   It will probably be easier to delete and rewrite it than understand it.
+
+9.  Dead Code at `main.py` [line 72]
+    *   Line of code after `break` is never reached
+    *   ```python
+	break
+	sys.exit(True)
+	```
+    *   Delete the line after the break
