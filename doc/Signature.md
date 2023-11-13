@@ -5,7 +5,7 @@
 | Date        | Time Spent | Events
 |-------------|------------|--------------------
 | November 11 | 1.5 hours  | Found all code smells, reported in Smells.md
-| Nocember    | 0 hours    | 
+| November 12 | 0.74 hours | Analyzed program and reported in 4.0-Plan.
 | Nocember    | 0 hours    | 
 | Nocember    | 0 hours    | 
 | Nocember    | 0 hours    | 
