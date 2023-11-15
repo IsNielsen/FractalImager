@@ -6,10 +6,10 @@
 |-------------|------------|--------------------
 | November 11 | 1.5 hours  | Found all code smells, reported in Smells.md
 | November 12 | 0.74 hours | Analyzed program and reported in 4.0-Plan.
-| Nocember    | 0 hours    | 
-| Nocember    | 0 hours    | 
-| Nocember    | 0 hours    | 
-| Nocember    | 0 hours    | 
+| November 14 | 0.5 hours  | Basic design of main.py and FractalInformation.py
+| November    | 0 hours    | 
+| November    | 0 hours    | 
+| November    | 0 hours    | 
 | TOTAL       | 12.5 hours | *Your TOTAL should agree with your daily entries*
 
 
