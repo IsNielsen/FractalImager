@@ -9,7 +9,7 @@
 | November 14 | 0.5 hours  | Basic design of main.py and FractalInformation.py
 | November 15 | 2 hours    | Worked on design phase
 | November 16 | 2.5 hours  | Wrote manual and Finished design phase
-| November    | 0 hours    | 
+| November 17 | 1 hours    | Cleaned up old code and started shaping new files
 | November    | 0 hours    | 
 | November    | 0 hours    | 
 | TOTAL       | 12.5 hours | *Your TOTAL should agree with your daily entries*
