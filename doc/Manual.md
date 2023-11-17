@@ -10,6 +10,24 @@ handling invalid arguments, and saving images.
 
 ## Usage
 
+To correctly use this program, you mush be in the cs1440-assn4 directory. The command format is as follows:
+
+```bash
+python src/main.py [FRACTAL_NAME]
+```
+
+Correct usage will display a fractal image, save the image as a png to the current directory, and print the following:
+
+```bash
+$ python src/main.py peacock
+Rendering peacock fractal
+[100% =================================]
+Done in 5.361 seconds!
+Saved image to file peacock.png
+Close the image window to exit the program
+
+```
+
 When no argument is supplied to main.py, the available fractal choices are displayed to the user. 
 To execute the script without specifying a fractal, use the following command:
 
