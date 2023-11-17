@@ -23,30 +23,8 @@
 
 # These are the imports that I usually import
 import turtle
-import os
-import os.path
 import sys
 import time
-
-# These are imports people on StackOverflow use all the time.
-# I've begun importing these just in case I need to borrow some code that I find online
-# This way, whatever I paste is guaranteed to work without making more errors!
-import functools
-import itertools
-import builtins
-import pathlib
-import pickle
-import importlib
-import unittest
-import csv
-import argparse
-import asyncio
-import http, html
-# these ones make my programs crash on some of my computers
-# I'll just comment them out, just in case I need them, so I don't have to look up how to import them on SO
-#import numpy
-#from torch import Tensor
-#import pandas
 
 
 # these ones are the ones that i'm using in this program
@@ -100,10 +78,7 @@ def getColorFromPalette(z):
         # if the absolute value of Z is graeter or equal than 2, then return that color
         if abs(z) > 2:
             return grad[i]  # The sequence is unbounded
-            z = z * z + c  # + zPrev * pheonix
-    # TODO: One of these returns occasionally makes the program crash sometimes
     return grad[101]         # Else this is a bounded sequence
-    return grad[102]         # Else this is a bounded sequence
 
 
 def getFractalConfigurationDataFromFractalRepositoryDictionary(dictionary, name):
@@ -124,8 +99,7 @@ def getFractalConfigurationDataFromFractalRepositoryDictionary(dictionary, name)
 
 Save_As_Picture = True
 tkPhotoImage = None
-
-def makePictureOfFractal(f, i, e, w, g, p, W, a, b, s):
+def makePictureOfFractal(dict, TkWindow, tkPhotoImage, color, s):
     """Paint a Fractal image into the TKinter PhotoImage canvas.
     Assumes the image is 640x640 pixels."""
 
@@ -133,19 +107,17 @@ def makePictureOfFractal(f, i, e, w, g, p, W, a, b, s):
     # coordinates of the imaginary plane
 
     # Compute the minimum coordinate of the picture
-    min = ((f['centerX'] - (f['axisLength'] / 2.0)),
-           (f['centerY'] - (f['axisLength'] / 2.0)))
-
-    #global s  # huh, this worked last week...
+    min = ((dict['centerX'] - (dict['axisLength'] / 2.0)),
+           (dict['centerY'] - (dict['axisLength'] / 2.0)))
 
     # Compute the maximum coordinate of the picture
     # The program has only one axisLength because the images are square
     # Squares are basically rectangles except the sides are equal instead of different
-    max = ((f['centerX'] + (f['axisLength'] / 2.0)),
-           (f['centerY'] + (f['axisLength'] / 2.0)))
+    max = ((dict['centerX'] + (dict['axisLength'] / 2.0)),
+           (dict['centerY'] + (dict['axisLength'] / 2.0)))
 
     # Display the image on the screen
-    tk_Interface_PhotoImage_canvas_pixel_object = Canvas(win, width=s, height=s, bg=W)
+    tk_Interface_PhotoImage_canvas_pixel_object = Canvas(win, width=s, height=s, bg=color)
 
     # pack the canvas object into its parent widget
     tk_Interface_PhotoImage_canvas_pixel_object.pack()
@@ -155,16 +127,8 @@ def makePictureOfFractal(f, i, e, w, g, p, W, a, b, s):
 
     # Create the TK PhotoImage object that backs the Canvas Objcet
     # This is what lets us draw individual pixels instead of drawing things like rectangles, squares, and quadrilaterals
-    tk_Interface_PhotoImage_canvas_pixel_object.create_image((s/2, s/2), image=p, state="normal")
-    tk_Interface_PhotoImage_canvas_pixel_object.pack()  # This seems repetitive
-    tk_Interface_PhotoImage_canvas_pixel_object.pack()  # But it is how Larry wrote it the tutorial
-    tk_Interface_PhotoImage_canvas_pixel_object.pack()  # Larry's a smart guy.  I'm sure he has his reasons.
+    tk_Interface_PhotoImage_canvas_pixel_object.create_image((s/2, s/2), image=tkPhotoImage, state="normal")
 
-    # Total number of pixels in the image, AKA the area of the image, in pixels
-    area_in_pixels = 640 * 640
-
-    # pack the canvas object into its parent widget
-    tk_Interface_PhotoImage_canvas_pixel_object.pack()  # Does this even matter?
     # At this scale, how much length and height of the
     # imaginary plane does one pixel cover?
     size = abs(max[0] - min[0]) / s
@@ -173,7 +137,6 @@ def makePictureOfFractal(f, i, e, w, g, p, W, a, b, s):
     tk_Interface_PhotoImage_canvas_pixel_object.pack()
 
     # Keep track of the fraction of pixels that have been written up to this point in the program
-    fraction_of_pixels_writtenSoFar = int(s // 640)
 
     # for r (where r means "row") in the range of the size of the square image,
     # but count backwards (that's what the -1 as the 3rd parameter to the range() function means - it's the "step"
@@ -191,19 +154,15 @@ def makePictureOfFractal(f, i, e, w, g, p, W, a, b, s):
             # GRAPHICS... whatev)
             X = min[0] + c * size
             Y = 0
-            # get the color of the pixel at this point in the complex plain
-            cp = getColorFromPalette(complex(X, Y))
             # calculate the X value in the complex plane (but I know this is
             # really the IMAGINARY axis that we're talking about here...)
             Y = min[1] + r * size
-            # TODO: do I really need to call getColorFromPalette() twice?
-            #       It seems like this should be slow...
-            #       But, if it aint broken, don't repair it, right?
+            # get the color of the pixel at this point in the complex plain
             cp = getColorFromPalette(complex(X, Y))
             cs.append(cp)
         pixls = '{' + ' '.join(cs) + '}'
-        p.put(pixls, (0, s - r))
-        w.update()  # display a row of pixels
+        tkPhotoImage.put(pixls, (0, s - r))
+        TkWindow.update()  # display a row of pixels
         fraction_of_pixels_writtenSoFar = (s - r) / s # update the number of pixels output so far
         # print a statusbar on the console
         print(f"[{fraction_of_pixels_writtenSoFar:>4.0%}"
@@ -328,7 +287,7 @@ def phoenix_main(i):
     tkPhotoImage = PhotoImage(width=s, height=s)
     # ... and use it to make a picture of a fractal
     # TODO - should I have named this function "makeFractal()" or maybe just "makePicture"?
-    makePictureOfFractal(f[i], i, ".png", win, grad, tkPhotoImage, GREY0, None, None, s)
+    makePictureOfFractal(f[i], win, tkPhotoImage, GREY0, s)
 
     if Save_As_Picture:
         # Write out the Fractal into a .gif image file
@@ -348,22 +307,4 @@ def phoenix_main(i):
     mainloop()
 
 
-## This is some weird Python thing... but all of the tutorials do it, so here we go
-#if __name__ == '__main__':
-#    # Process command-line arguments, allowing the user to select their fractal
-#    if len(sys.argv) < 2:
-#        print("Please provide the name of a fractal as an argument", file=sys.stderr)
-#        for i in f:
-#            print(f"\t{i}", file=sys.stderr)
-#        sys.exit(1)
-#
-#    elif sys.argv[1] not in f:
-#        print(f"ERROR: {sys.argv[1]} is not a valid fractal", file=sys.stderr)
-#        print("Please choose one of the following:", file=sys.stderr)
-#        for i in f:
-#            print(f"\t{i}", file=sys.stderr)
-#        sys.exit(1)
-#
-#    else:
-#        fratcal_config = getFractalConfigurationDataFromFractalRepositoryDictionary(f, sys.argv[1])
-#        phoenix_main(fratcal_config)
+
