@@ -1,13 +1,102 @@
 # Fractal Visualizer User Manual
 
-*   **TODO**: This is the **user manual**, not the **programmer's manual**
-    *   **TODO**: Keep your instructions at a user-friendly level.
-*   **TODO**: Explain how to run the program
-    *   **TODO**: What is the name of the main program file?
-    *   **TODO**: What command-line arguments are needed?
-*   **TODO**: What output does the program produce?
-    *   **TODO**: What is shown when the program works correctly?
-    *   **TODO**: What is shown when an error is encountered
-    *   **TODO**: Provide examples of both!
-*   **TODO**: This block of instructions does not belong in the finished product
-    *   **TODO**: Delete this before turning it in
+*The following is an basic manual outline written by chatgpt, with added clarification when needed and input/output blocks based on ones given by Prof. Falor:*
+
+## Overview:
+
+The Fractal Renderer is a command-line tool designed to generate and save images of various fractals. 
+This manual provides an overview of how to use the main.py script, including information on displaying choices, 
+handling invalid arguments, and saving images.
+
+## Usage
+
+When no argument is supplied to main.py, the available fractal choices are displayed to the user. 
+To execute the script without specifying a fractal, use the following command:
+
+```bash
+$ python src/main.py
+```
+
+The output will prompt the user to provide the name of a fractal as an argument, displaying the available choices.
+
+```bash
+Please provide the name of a fractal as an argument
+    phoenix
+    peacock
+    monkey-knife-fight
+    shrimp-cocktail
+    elephants
+    leaf
+    mandelbrot
+    mandelbrot-zoomed
+    seahorse
+    spiral0
+    spiral1
+    starfish
+```
+
+## Handling Invalid Arguments
+
+If an invalid fractal name is provided as an argument, the script will report an error and display the usage message with the available choices. For example:
+
+```bash
+$ python src/main.py mustache
+ERROR: mustache is not a valid fractal
+Please choose one of the following:
+    phoenix
+    peacock
+    monkey-knife-fight
+    shrimp-cocktail
+    elephants
+    leaf
+    mandelbrot
+    mandelbrot-zoomed
+    seahorse
+    spiral0
+    spiral1
+    starfish
+```
+
+## Case Sensitivity
+
+The Fractal Renderer only accepts lower-case arguments. If a capitalized fractal name is provided, it will be rejected with an error message and the available choices will be displayed.
+
+```bash
+$ python src/main.py Mandelbrot
+ERROR: Mandelbrot is not a valid fractal
+Please choose one of the following:
+    phoenix
+    peacock
+    monkey-knife-fight
+    shrimp-cocktail
+    elephants
+    leaf
+    mandelbrot
+    mandelbrot-zoomed
+    seahorse
+    spiral0
+    spiral1
+    starfish
+
+```
+
+## Extra Arguments
+
+Any extra arguments provided after the fractal name will be ignored. For example:
+
+```bash
+$ python src/main.py mandelbrot extra arguments
+Rendering mandelbrot fractal
+[100% =================================]
+Done in 3.152 seconds!
+Saved image to file mandelbrot.png
+Close the image window to exit the program
+```
+
+## Image Saving
+
+The generated images are saved in the current working directory with filenames following the pattern: 
+fractal_name.png. Existing images with the same filename will be silently overwritten.
+
+Feel free to explore the diverse fractal options and create stunning images with the Fractal Renderer!
+
