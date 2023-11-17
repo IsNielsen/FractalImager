@@ -7,6 +7,8 @@
 | November 11 | 1.5 hours  | Found all code smells, reported in Smells.md
 | November 12 | 0.74 hours | Analyzed program and reported in 4.0-Plan.
 | November 14 | 0.5 hours  | Basic design of main.py and FractalInformation.py
+| November 15 | 2 hours    | Worked on design phase
+| November 16 | 2.5 hours  | Wrote manual and Finished design phase
 | November    | 0 hours    | 
 | November    | 0 hours    | 
 | November    | 0 hours    | 
