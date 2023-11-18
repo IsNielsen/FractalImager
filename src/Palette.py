@@ -71,3 +71,11 @@ def give_color(palette, color_index):
         return phoenixPalette[color_index]
     print("I failed somehow")
     sys.exit(1)
+
+def palette_size(palette):
+    if palette == 'M':
+        return len(mandelbrotPalette)
+    if palette == 'P':
+        return len(phoenixPalette)
+    print("I failed somehow")
+    sys.exit(1)

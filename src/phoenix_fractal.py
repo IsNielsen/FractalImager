@@ -24,7 +24,6 @@
 # These are the imports that I usually import
 import turtle
 import sys
-import time
 
 
 # these ones are the ones that i'm using in this program
@@ -33,144 +32,80 @@ from time import time
 
 
 SPC = chr(0o40)  # Why doesn't anybody write octal numbers anymore...
-s = 0o1000
+size = 0o1000
+
 
 def getColorFromPalette(z):
     """
     Return the index of the color of the current pixel
     within the Phoenix fractal in the palette array
     """
-
-    # I feel bad about all of the global variables I'm using.
-    # There must be a better way...
-    global grad
-    global win
-
-    # c is the Julia Constant; varying this value gives rise to a variety of variated images
+    # Constants
     c = complex(0.5667, 0.0)
+    phoenix = complex(-0.5, 0.0)
 
-    # phoenix is the Phonix Constant; same deal as above - adjust this to get different results
-    pheonix = complex(-0.5, 0.0)
+    # Initialize variables
+    z_flipped = complex(z.imag, z.real)
+    z_prev = 0 + 0j
+    z = z_flipped
 
-    # The first thing we do to the complex number Z is reflect its components,
-    # so the imaginary part becomes the real part, and vice versa
-    zFlipped = complex(z.imag, z.real)
-    ## if we don't do this, the image comes out SIDEWAYS!!!
+    # Loop over the range of colors in the palette
+    for i in range(102):
+        z_save = z  # Save the current Z value before overwriting it
+        # Compute the new Z value from the current and previous Zs
+        z = z * z + c + (phoenix * z_prev)
+        z_prev = z_save  # Set the prevZ value for the next iteration
 
-    # zPrevious is the PREVIOUS Z value, except the 1st time through the
-    # function, when it starts out as Complex Zero (which is actually the
-    # same thing as REAL Zero 0)  MATH IS BEAUTIFUL!
-    zPrev = 0+0j
-    # set Z back to zFlipped, it is literally super-important that we do this
-    # before the next part of the algorithm
-    z = zFlipped
-
-    # I want to use 101 here because that's the number of colors in the
-    # palette.  Except range() wants its number to be one more than the number
-    # that YOU want.
-    for i in range(102):# <--not cool, PYTHON WHY CAN'T YOU BE BEAUTIFUL LIKE MATH?
-
-        zSave = z  # save the current Z value before we overwrite it
-        # compute the new Z value from the current and previous Zs
-        z = z * z + c + (pheonix * zPrev)
-        zPrev = zSave  # Set the prevZ value for the next iteration
-
-        # if the absolute value of Z is graeter or equal than 2, then return that color
+        # If the absolute value of Z is greater or equal to 2, return that color
         if abs(z) > 2:
             return grad[i]  # The sequence is unbounded
-    return grad[101]         # Else this is a bounded sequence
 
-
-def getFractalConfigurationDataFromFractalRepositoryDictionary(dictionary, name):
-    """Make sure that the fractal configuration data repository dictionary
-    contains a key by the name of 'name'
-
-    When the key 'name' is present in the fractal configuration data repository
-    dictionary, return its value.
-
-    Return False otherwise
-    """
-    for key in dictionary:
-        if key in dictionary:
-            if key == name:
-                value = dictionary[key]
-                return key
+    return grad[101]  # Else this is a bounded sequence
 
 
 Save_As_Picture = True
 tkPhotoImage = None
-def makePictureOfFractal(dict, TkWindow, tkPhotoImage, color, s):
+
+
+def makePictureOfFractal(fractal, tk_window, tk_photo_image, bg_color, size):
     """Paint a Fractal image into the TKinter PhotoImage canvas.
-    Assumes the image is 640x640 pixels."""
+    Assumes the image is square (size x size) pixels."""
 
-    # Correlate the boundaries of the PhotoImage object to the complex
-    # coordinates of the imaginary plane
+    # Compute the minimum and maximum coordinates of the picture
+    min_coord = (fractal['centerX'] - (fractal['axisLength'] / 2.0),
+                 fractal['centerY'] - (fractal['axisLength'] / 2.0))
+    max_coord = (fractal['centerX'] + (fractal['axisLength'] / 2.0),
+                 fractal['centerY'] + (fractal['axisLength'] / 2.0))
 
-    # Compute the minimum coordinate of the picture
-    min = ((dict['centerX'] - (dict['axisLength'] / 2.0)),
-           (dict['centerY'] - (dict['axisLength'] / 2.0)))
+    # Create the canvas object
+    canvas = Canvas(tk_window, width=size, height=size, bg=bg_color)
+    canvas.pack()
 
-    # Compute the maximum coordinate of the picture
-    # The program has only one axisLength because the images are square
-    # Squares are basically rectangles except the sides are equal instead of different
-    max = ((dict['centerX'] + (dict['axisLength'] / 2.0)),
-           (dict['centerY'] + (dict['axisLength'] / 2.0)))
+    # Create the TK PhotoImage object
+    canvas.create_image((size/2, size/2), image=tk_photo_image, state="normal")
 
-    # Display the image on the screen
-    tk_Interface_PhotoImage_canvas_pixel_object = Canvas(win, width=s, height=s, bg=color)
+    # Calculate the pixel size in the complex plane
+    pixel_size = abs(max_coord[0] - min_coord[0]) / size
 
-    # pack the canvas object into its parent widget
-    tk_Interface_PhotoImage_canvas_pixel_object.pack()
-    # TODO: Sometimes I wonder whether some of my functions are trying to do
-    #       too many different things... this is the correct part of the
-    #       program to create a GUI window, right?
+    # Draw the pixels on the canvas
+    for row in range(size, 0, -1):
+        colors = []
+        for col in range(size):
+            x_val = min_coord[0] + col * pixel_size
+            y_val = min_coord[1] + row * pixel_size
+            color = getColorFromPalette(complex(x_val, y_val))
+            colors.append(color)
 
-    # Create the TK PhotoImage object that backs the Canvas Objcet
-    # This is what lets us draw individual pixels instead of drawing things like rectangles, squares, and quadrilaterals
-    tk_Interface_PhotoImage_canvas_pixel_object.create_image((s/2, s/2), image=tkPhotoImage, state="normal")
+        pixel_data = '{' + ' '.join(colors) + '}'
+        tk_photo_image.put(pixel_data, (0, size - row))
+        tk_window.update()
 
-    # At this scale, how much length and height of the
-    # imaginary plane does one pixel cover?
-    size = abs(max[0] - min[0]) / s
-
-    # pack the canvas object into its parent widget
-    tk_Interface_PhotoImage_canvas_pixel_object.pack()
-
-    # Keep track of the fraction of pixels that have been written up to this point in the program
-
-    # for r (where r means "row") in the range of the size of the square image,
-    # but count backwards (that's what the -1 as the 3rd parameter to the range() function means - it's the "step"
-    # You can actually put any number there that you want, because it defaults to "1" you usually don't have to
-    # but I have to here because we're actually going BACKWARDS, which took me
-    # a long time to figure out, so don't change it, or else the picture won't
-    # come out right
-    r = s
-    while r in range(s, 0, -1):
-        # for c (c == column) in the range of pixels in a square of size s
-        cs = []
-        for c in range(s):
-            # calculate the X value in the complex plane (I guess that's
-            # actually the REAL number part, but we call it X because
-            # GRAPHICS... whatev)
-            X = min[0] + c * size
-            Y = 0
-            # calculate the X value in the complex plane (but I know this is
-            # really the IMAGINARY axis that we're talking about here...)
-            Y = min[1] + r * size
-            # get the color of the pixel at this point in the complex plain
-            cp = getColorFromPalette(complex(X, Y))
-            cs.append(cp)
-        pixls = '{' + ' '.join(cs) + '}'
-        tkPhotoImage.put(pixls, (0, s - r))
-        TkWindow.update()  # display a row of pixels
-        fraction_of_pixels_writtenSoFar = (s - r) / s # update the number of pixels output so far
-        # print a statusbar on the console
-        print(f"[{fraction_of_pixels_writtenSoFar:>4.0%}"
-                + f'{SPC}'
-                + f"{'=' * int(34 * fraction_of_pixels_writtenSoFar):<33}]",
-                end="\r"  # the end
-                , file=sys.stderr)
-        r -= 1
+        # Print a status bar on the console
+        fraction_done = (size - row) / size
+        print(f"[{fraction_done:>4.0%}"
+              + f' {SPC}'
+              + f"{'=' * int(34 * fraction_done):<33}]",
+              end="\r", file=sys.stderr)
 
 
 # This is the color palette, which defines the palette that images are drawn
@@ -268,42 +203,22 @@ GRAY99 = '#fcfcfc'  # gray 99 - almost white
 
 def phoenix_main(i):
     """The main entry-point for the Phoenix fractal generator"""
-
-    # the size of the image we will create is 512x512 pixels
-    # Look, I  know globals are bad, but I don't know how else to use those
-    # variables in here if I don't do it this way.  I didn't take any fancy CS
-    # classes, sue me
     global tkPhotoImage
-    global win
-    global s
-
-    # Note the time of when we started so we can measure performance improvements
-    b4 = time()
-    # Set up the GUI so that we can display the fractal image on the screen
-    win = Tk()
+    global size
 
     print("Rendering %s fractal" % i, file=sys.stderr)
-    # construct a new TK PhotoImage object that is 512 pixels square...
-    tkPhotoImage = PhotoImage(width=s, height=s)
-    # ... and use it to make a picture of a fractal
-    # TODO - should I have named this function "makeFractal()" or maybe just "makePicture"?
-    makePictureOfFractal(f[i], win, tkPhotoImage, GREY0, s)
+    start = time()
+    window = Tk()
 
-    if Save_As_Picture:
-        # Write out the Fractal into a .gif image file
-        tkPhotoImage.write(i + ".png")
-        #tkPhotoImage.write(f"{i}.png")
-        print(f"\nDone in {time() - b4:.3f} seconds!", file=sys.stderr)
+    tkPhotoImage = PhotoImage(width=size, height=size)
+    makePictureOfFractal(f[i], window, tkPhotoImage, GREY0, size)
 
-    if Save_As_Picture:
-        # Output the Fractal into a .png image
-        tkPhotoImage.write(f"{i}.png")
-        print("Saved image to file " + i + ".png", file=sys.stderr)
-        #tkPhotoImage.write(f"{i}.png")
+    print(f"\nDone in {time() - start:.3f} seconds!", file=sys.stderr)
 
-    # print a message telling the user how to quit or exit the program
+    tkPhotoImage.write(f"{i}.png")
+    print("Saved image to file " + i + ".png", file=sys.stderr)
+
     print("Close the image window to exit the program", file=sys.stderr)
-    # Call tkinter.mainloop so the GUI remains open
     mainloop()
 
 

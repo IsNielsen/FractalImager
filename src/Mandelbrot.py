@@ -1,5 +1,9 @@
-import math
+def mandelbrot_iteration_count(c):
+    z = 0
+    MAX_ITERATIONS = 115
 
-
-def find_iteration(x_coord, y_coord, palette_len):
-    pass
+    for iter in range(MAX_ITERATIONS):
+        z = z * z + c
+        if abs(z) > 2:
+            return iter
+    return iter

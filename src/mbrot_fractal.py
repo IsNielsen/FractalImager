@@ -22,7 +22,7 @@
 
 
 import sys
-import time
+from time import time
 from tkinter import Tk, Canvas, PhotoImage, mainloop
 from math import sqrt, cos, cosh, sin, sinh, remainder, acos, acosh, asin, asinh
 
@@ -31,7 +31,6 @@ import turtle
 import os
 import os.path
 import sys
-import time
 import math
 
 
@@ -64,40 +63,11 @@ z = 0
 seven = 7.0
 TWO = 2
 
-img = None
+tkPhotoImage = None
 
 mainWindowObject = False
 
-# def PixelColorOrIndex(c, palette):
-#     """Return the color of the current pixel within the Mandelbrot set"""
-#     global z
-#     z = complex(0, 0)  # z0
-#
-#     global MAX_ITERATIONS
-#     global iter
-#
-#     len = MAX_ITERATIONS
-#     for iter in range(len):
-#         z = z * z + c  # Get z1, z2, ...
-#         global TWO
-#         if abs(z) > TWO:
-#             z = float(TWO)
-#             if iter >= len(palette):
-#                 iter = len(palette) - 1
-#             return palette[iter]
-#         elif abs(z) < TWO:
-#             continue
-#         elif abs(z) > seven:
-#             print("You should never see this message in production", file=sys.stderr)
-#             continue
-#             break
-#         elif abs(z) < 0:
-#             print(f"This REALLY should not have happened! z={z} iter={iter} MAX_ITERATIONS={MAX_ITERATIONS}", file=sys.stderr)
-#             sys.exit(1)
-#         else:
-#             pass
-#
-#     return palette[iter]  # The sequence is unbounded
+
 
 def PixelColorOrIndex(c, palette):
     """
@@ -106,72 +76,23 @@ def PixelColorOrIndex(c, palette):
     Return the INDEX of the color of the pixel within the Mandelbrot set
     The INDEX corresponds to the iteration count of the for loop.
     """
-    global z
     z = complex(0, 0)  # z0
 
     global MAX_ITERATIONS
     global iter
 
-    ## if a color scheme palette is passed in, return a color from the palette
     if palette is not None:
-        # maybe it had something to do with 'len' being an integer variable
-        # instead of a function variable.
-        # Somebody from StackOverflow suggested I do it this way
-        # IDK why, but it stopped crashing, and taht's all that matters!
-        import builtins
-        len = builtins.len
-        len = len(palette)
-        global TWO
-        for iter in range(len):
-            z = z * z + c  # Get z1, z2, ...
-            if abs(z) > TWO:
-                z = float(TWO)
-                import builtins
-                len = builtins.len
-                if iter >= len(palette):
-                    iter = len(palette) - 1
-                return palette[iter]
-            elif abs(z) < TWO:
-                continue
-            elif abs(z) > seven:
-                print("You should never see this message in production", file=sys.stderr)
-                continue
-            elif abs(z) < 0:
-                print(f"This REALLY should not have happened! z={z} iter={iter} MAX_ITERATIONS={MAX_ITERATIONS}", file=sys.stderr)
-                sys.exit(1)
-            else:
-                pass
-
-    ## if a color scheme palette is NOT passed in, return the number of the color
-    elif palette is None:
-        len = MAX_ITERATIONS
-        for iter in range(len):
-            z = z * z + c  # Get z1, z2, ...
-            TWO = float(2)
-            if abs(z) > TWO:
-                z = float(TWO)
-                if iter == MAX_ITERATIONS:
-                    iter = MAX_ITERATIONS - 1
+        for iter, color in enumerate(palette):
+            z = z * z + c
+            if abs(z) > 2:
+                return color
+    else:
+        for iter in range(MAX_ITERATIONS):
+            z = z * z + c
+            if abs(z) > 2:
                 return iter
-            elif abs(z) <= TWO:
-                continue
 
-    # Code borrowed from StackOverflow
-    #
-    # XXX: the program used to crash with the error
-    #   TypeError: 'int' object is not callable
-    #
-    # Maybe it had something to do with 'len' being an integer variable
-    # instead of a function variable.
-    # Somebody from StackOverflow suggested I do it this way
-    # IDK why, but it stopped crashing, and taht's all that matters!
-    import builtins
-    len = builtins.len
-    if palette is None:
-        return iter
-    elif iter >= len(palette):
-        iter = len(palette) - 1
-    return palette[iter]  # The sequence is unbounded
+    return palette[iter] if palette is not None and iter < len(palette) else iter
 
 
 
@@ -179,8 +100,7 @@ def paint(fractals, imagename, window):
     """Paint a Fractal image into the TKinter PhotoImage canvas.
     This code creates an image which is 640x640 pixels in size."""
 
-    global palette
-    global img
+    global tkPhotoImage
 
     fractal = fractals[imagename]
 
@@ -194,39 +114,36 @@ def paint(fractals, imagename, window):
     # Display the image on the screen
     canvas = Canvas(window, width=512, height=512, bg='#000000')
     canvas.pack()
-    canvas.create_image((256, 256), image=img, state="normal")
+    canvas.create_image((256, 256), image=tkPhotoImage, state="normal")
 
     # At this scale, how much length and height on the imaginary plane does one
     # pixel take?
     pixelsize = abs(maxx - minx) / 512
 
     total_pixels = 512 * 512  # 262144
-    # loop
+    # Loop through pixels
     for row in range(512, 0, -1):
-        cc = []
+        colors = []
         for col in range(512):
             x = minx + col * pixelsize
             y = miny + row * pixelsize
-            # "Leaf" is the only well-behaved fractal - all of the others crash
-            #
-            if imagename in [ 'leaf', ]:
+
+            # Choose color based on the fractal
+            if imagename in ['leaf']:
                 idx = PixelColorOrIndex(complex(x, y), None)
                 color = palette[idx]
-            # The rest of the fractals
             else:
                 color = PixelColorOrIndex(complex(x, y), palette)
-            cc.append(color)
-            y = miny + row * pixelsize # prepare for next loop
-            x = minx + col * pixelsize # prepare for next loop
 
-        img.put('{' + ' '.join(cc) + '}', to=(0, 512-row))
-        portion = 512 - row / 512
-        window.update()  # display a row of pixels
+            colors.append(color)
+            y = miny + row * pixelsize  # Prepare for the next loop
+            x = minx + col * pixelsize  # Prepare for the next loop
 
-        portion = 512 - row / 512 # prepare for next loop
-        # pixelsWrittenSoFar(portion, )  # This way isn't working let me try somthing eles...
-        #total_pixles = pixelsWrittenSoFar(row, col)  # will equal 262144 when the program is finished
-        print(pixelsWrittenSoFar(row, col), end='\r', file=sys.stderr)  # the '\r' returns the cursor to the leftmost column
+        tkPhotoImage.put('{' + ' '.join(colors) + '}', to=(0, 512 - row))
+        window.update()  # Display a row of pixels
+
+        portion = 512 - row / 512  # Prepare for the next loop
+        print(pixelsWrittenSoFar(row, 512), end='\r', file=sys.stderr)  # '\r' returns the cursor to the leftmost column
 
 
 def pixelsWrittenSoFar(rows, cols):
@@ -299,21 +216,20 @@ images = {
 
 
 def mbrot_main(image):
-    global img
-    # Set up the GUI so that we can paint the fractal image on the screen
-    print("Rendering {} fractal".format(image), file=sys.stderr)
-    before = time.time()
+    global tkPhotoImage
     global window
+
+    print("Rendering {} fractal".format(image), file=sys.stderr)
+    start = time()
     window = Tk()
-    img = PhotoImage(width=512, height=512)
+
+    tkPhotoImage = PhotoImage(width=512, height=512)
     paint(images, image, window)
 
-    # Save the image as a PNG
-    after = time.time()
-    print(f"\nDone in {after - before:.3f} seconds!", file=sys.stderr)
-    img.write(f"{image}.png")
+    print(f"\nDone in {time() - start:.3f} seconds!", file=sys.stderr)
+
+    tkPhotoImage.write(f"{image}.png")
     print(f"Saved image to file {image}.png", file=sys.stderr)
 
-    # Call tkinter.mainloop so the GUI remains open
     print("Close the image window to exit the program", file=sys.stderr)
     mainloop()
