@@ -13,13 +13,13 @@ handling invalid arguments, and saving images.
 To correctly use this program, you mush be in the cs1440-assn4 directory. The command format is as follows:
 
 ```bash
-python src/main.py [FRACTAL_NAME]
+python src/main_old.py [FRACTAL_NAME]
 ```
 
 Correct usage will display a fractal image, save the image as a png to the current directory, and print the following:
 
 ```bash
-$ python src/main.py peacock
+$ python src/main_old.py peacock
 Rendering peacock fractal
 [100% =================================]
 Done in 5.361 seconds!
@@ -32,7 +32,7 @@ When no argument is supplied to main.py, the available fractal choices are displ
 To execute the script without specifying a fractal, use the following command:
 
 ```bash
-$ python src/main.py
+$ python src/main_old.py
 ```
 
 The output will prompt the user to provide the name of a fractal as an argument, displaying the available choices.
@@ -58,7 +58,7 @@ Please provide the name of a fractal as an argument
 If an invalid fractal name is provided as an argument, the script will report an error and display the usage message with the available choices. For example:
 
 ```bash
-$ python src/main.py mustache
+$ python src/main_old.py mustache
 ERROR: mustache is not a valid fractal
 Please choose one of the following:
     phoenix
@@ -80,7 +80,7 @@ Please choose one of the following:
 The Fractal Renderer only accepts lower-case arguments. If a capitalized fractal name is provided, it will be rejected with an error message and the available choices will be displayed.
 
 ```bash
-$ python src/main.py Mandelbrot
+$ python src/main_old.py Mandelbrot
 ERROR: Mandelbrot is not a valid fractal
 Please choose one of the following:
     phoenix
@@ -103,7 +103,7 @@ Please choose one of the following:
 Any extra arguments provided after the fractal name will be ignored. For example:
 
 ```bash
-$ python src/main.py mandelbrot extra arguments
+$ python src/main_old.py mandelbrot extra arguments
 Rendering mandelbrot fractal
 [100% =================================]
 Done in 3.152 seconds!

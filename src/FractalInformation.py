@@ -65,7 +65,7 @@ fractals = {
     'leaf': {
         'centerX': -1.543577002,
         'centerY': -0.000058690069,
-        'axisLen':  0.000051248888,
+        'axisLen': 0.000051248888,
         'fractalType': 'mandelbrot'
     },
 
@@ -78,24 +78,24 @@ fractals = {
 
     # The full Phoenix set ##########################
     'phoenix': {
-        'centerX':     0.0,
-        'centerY':     0.0,
-        'axisLen':  3.25,
+        'centerX': 0.0,
+        'centerY': 0.0,
+        'axisLen': 3.25,
         'fractalType': 'phoenix'
     },
 
     # This one looks like a peacock's tail to me
     'peacock': {
-        'centerX':     -0.363287878200906,
-        'centerY':     0.381197981824009,
-        'axisLen':  0.0840187115019564,
+        'centerX': -0.363287878200906,
+        'centerY': 0.381197981824009,
+        'axisLen': 0.0840187115019564,
         'fractalType': 'phoenix'
     },
 
     # Two or more monkeys having a scuffle
     'monkey-knife-fight': {
-        'centerX':    -0.945542168674699,
-        'centerY':    0.232234726688103,
+        'centerX': -0.945542168674699,
+        'centerY': 0.232234726688103,
         'axisLen': 0.136626506024096,
         'fractalType': 'phoenix'
     },

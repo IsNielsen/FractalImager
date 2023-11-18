@@ -15,7 +15,6 @@ def phoenix_iteration_count(compNum, size):
     # Loop over the range of colors in the palette
     for i in range(size):
         z, z_prev = z * z + c + (phoenix * z_prev), z  # Update Z and prevZ simultaneously
-
         # If the absolute value of Z is greater or equal to 2, return the iteration count
         if abs(z) > 2:
             return i  # The sequence is unbounded

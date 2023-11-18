@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-import sys
 
 #              Copyright © 2023 DuckieCorp. All Rights Reserved.
 #
@@ -59,8 +58,7 @@ phoenixPalette = [
     '#00bdbf', '#00b4bc', '#00abb9', '#00a3b6', '#009bb3', '#0092af',
     '#008bac', '#0083a9', '#007ba6', '#0074a3', '#006da0', '#00669d',
     '#005f9a', '#005996', '#005293', '#004c90', '#00468d', '#00418a',
-    '#003b87', '#003684', '#003080', '#002b7d', '#00277a', '#002277',
-    '#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF', '#FFFFFF'
+    '#003b87', '#003684', '#003080', '#002b7d', '#00277a', '#002277'
 ]
 
 
@@ -69,13 +67,11 @@ def give_color(palette, color_index):
         return mandelbrotPalette[color_index]
     if palette == 'P':
         return phoenixPalette[color_index]
-    print("I failed somehow")
-    sys.exit(1)
+
 
 def palette_size(palette):
     if palette == 'M':
         return len(mandelbrotPalette)
     if palette == 'P':
         return len(phoenixPalette)
-    print("I failed somehow")
-    sys.exit(1)
+
