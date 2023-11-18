@@ -110,5 +110,5 @@ fractals = {
 }
 
 def print_frac_list():
-    for key in fractal_dict:
+    for key in fractals:
         print(key)

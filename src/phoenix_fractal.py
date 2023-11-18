@@ -32,7 +32,7 @@ from time import time
 
 
 SPC = chr(0o40)  # Why doesn't anybody write octal numbers anymore...
-size = 0o1000
+size = 0o1000 # 512
 
 
 def getColorFromPalette(z):
@@ -93,6 +93,7 @@ def makePictureOfFractal(fractal, tk_window, tk_photo_image, bg_color, size):
         for col in range(size):
             x_val = min_coord[0] + col * pixel_size
             y_val = min_coord[1] + row * pixel_size
+
             color = getColorFromPalette(complex(x_val, y_val))
             colors.append(color)
 
@@ -100,12 +101,13 @@ def makePictureOfFractal(fractal, tk_window, tk_photo_image, bg_color, size):
         tk_photo_image.put(pixel_data, (0, size - row))
         tk_window.update()
 
-        # Print a status bar on the console
-        fraction_done = (size - row) / size
-        print(f"[{fraction_done:>4.0%}"
-              + f' {SPC}'
-              + f"{'=' * int(34 * fraction_done):<33}]",
-              end="\r", file=sys.stderr)
+        print_status(row)
+def print_status(rows):
+    # Print a status bar on the console
+    fraction_done = (size - rows) / size
+    print(f"[{'=' * int(34 * fraction_done):<33}]",
+          f"{fraction_done:>4.0%}",
+          end="\r", file=sys.stderr)
 
 
 # This is the color palette, which defines the palette that images are drawn

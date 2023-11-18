@@ -120,7 +120,6 @@ def paint(fractals, imagename, window):
     # pixel take?
     pixelsize = abs(maxx - minx) / 512
 
-    total_pixels = 512 * 512  # 262144
     # Loop through pixels
     for row in range(512, 0, -1):
         colors = []
@@ -136,19 +135,15 @@ def paint(fractals, imagename, window):
                 color = PixelColorOrIndex(complex(x, y), palette)
 
             colors.append(color)
-            y = miny + row * pixelsize  # Prepare for the next loop
-            x = minx + col * pixelsize  # Prepare for the next loop
 
         tkPhotoImage.put('{' + ' '.join(colors) + '}', to=(0, 512 - row))
         window.update()  # Display a row of pixels
 
-        portion = 512 - row / 512  # Prepare for the next loop
-        print(pixelsWrittenSoFar(row, 512), end='\r', file=sys.stderr)  # '\r' returns the cursor to the leftmost column
+        print(pixelsWrittenSoFar(row), end='\r', file=sys.stderr)  # '\r' returns the cursor to the leftmost column
 
 
-def pixelsWrittenSoFar(rows, cols):
+def pixelsWrittenSoFar(rows):
     portion = (512 - rows) / 512
-    pixels = (512 - rows) * 512
     status_percent = '{:>4.0%}'.format(portion)
     status_bar_width = 34
     status_bar = '=' * int(status_bar_width * portion)
