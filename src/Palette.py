@@ -69,7 +69,7 @@ def give_color(palette, color_index):
         return phoenixPalette[color_index]
 
 
-def palette_size(palette):
+def give_size(palette):
     if palette == 'M':
         return len(mandelbrotPalette)
     if palette == 'P':

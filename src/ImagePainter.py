@@ -1,6 +1,6 @@
 import sys
 from time import time
-from Palette import give_color, palette_size
+from Palette import give_color, give_size
 from Mandelbrot import mandelbrot_iteration_count
 from Phoenix import phoenix_iteration_count
 from tkinter import Tk, Canvas, PhotoImage, mainloop
@@ -30,12 +30,13 @@ def draw_fractal(frac_name, frac_data, size):
             x = min_x + col * pixel_size
             y = min_y + row * pixel_size
 
-            color = get_color(complex(x, y), frac_data['fractalType'])
+            color = fractals_color(complex(x, y), frac_data['fractalType'])
             colors.append(color)
 
         tkImage.put('{' + ' '.join(colors) + '}', (0, size - row))
         window.update()
-        status_bar(row, size)
+        print(status_bar(row, size), end="\r", file=sys.stderr)
+
 
     print(f"\nDone in {time() - start:.3f} seconds!", file=sys.stderr)
 
@@ -46,18 +47,21 @@ def draw_fractal(frac_name, frac_data, size):
     mainloop()
 
 
-def get_color(complexNum, fractype):
+def fractals_color(complexNum, fractype):
     if fractype == 'mandelbrot':
-        i = mandelbrot_iteration_count(complexNum, palette_size('M'))
+        i = mandelbrot_iteration_count(complexNum, give_size('M'))
         return give_color('M', i)
 
     if fractype == 'phoenix':
-        i = phoenix_iteration_count(complexNum, palette_size('P'))
+        i = phoenix_iteration_count(complexNum, give_size('P'))
         return give_color('P', i)
 
-def status_bar(rows, size):
+
+def status_bar(rows_left, size):
     # Print a status bar on the console
-    fraction_done = (size - rows) / size
-    print(f"[{'=' * int(34 * fraction_done):<33}]",
-          f"{fraction_done:>4.0%}",
-          end="\r", file=sys.stderr)
+    frac_done = (size - rows_left) / size
+    bar_len = 34
+    total_len = int(bar_len * frac_done)
+    remain_len = bar_len - total_len - 1
+
+    return f"[{frac_done * 100:3.0f}% {'=' * total_len}{' ' * remain_len}]"
