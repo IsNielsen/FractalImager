@@ -12,6 +12,7 @@
 | November 17 | 1 hours    | Cleaned up old code and started shaping new files
 | November 17 | 1.5 hours  | tried implementing new files, Im so lost rn.
 | November 17 | 3 hours    | Everything seems to work, just need to test.
+| November 18 | 3.25 hours | Tested! refactored a few small methods, wrote a few unittests
 | November    | 0 hours    |
 | TOTAL       | 12.5 hours | *Your TOTAL should agree with your daily entries*
 

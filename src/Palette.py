@@ -67,6 +67,8 @@ def give_color(palette, color_index):
         return mandelbrotPalette[color_index]
     if palette == 'P':
         return phoenixPalette[color_index]
+    # just in case I screw up and pass in the wrong thing
+    raise ValueError(f"Invalid palette: {palette}")
 
 
 def give_size(palette):
@@ -74,4 +76,5 @@ def give_size(palette):
         return len(mandelbrotPalette)
     if palette == 'P':
         return len(phoenixPalette)
-
+    # just in case I screw up and pass in the wrong thing
+    raise ValueError(f"Invalid palette: {palette}")
