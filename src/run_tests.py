@@ -22,11 +22,11 @@
 
 import unittest
 
-from tests import test_imagepainter, test_palette
+from tests import test_imagepainter, test_palette, test_fractalinformation
 
 
 suite = unittest.TestSuite()
-tests = [test_imagepainter.TestImagePainter, test_palette.TestPalette]
+tests = [test_imagepainter.TestImagePainter, test_palette.TestPalette, test_fractalinformation.TestFractalInformation]
 
 for test in tests:
     suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(test))

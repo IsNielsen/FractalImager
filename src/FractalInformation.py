@@ -110,5 +110,8 @@ fractals = {
 }
 
 def print_frac_list():
+    all_fracs = ""
     for key in fractals:
-        print(key)
+        all_fracs += key + '\n'
+    # print(all_fracs)
+    return all_fracs
