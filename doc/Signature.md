@@ -20,7 +20,7 @@
 
 | Date        | Time Spent | Events
 |-------------|------------|--------------------
-| November    | 0 hour     | 
+| December    | 1.75 hour  | Read requirments and analyzed. Also took the starter quiz 
 | November    | 0 hour     | 
 | November    | 0 hour     | 
 | November    | 0 hour     | 
