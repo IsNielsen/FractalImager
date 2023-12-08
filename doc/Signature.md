@@ -20,9 +20,11 @@
 
 | Date        | Time Spent | Events
 |-------------|------------|--------------------
-| December    | 1.75 hour  | Read requirments and analyzed. Also took the starter quiz 
-| November    | 0 hour     | 
-| November    | 0 hour     | 
-| November    | 0 hour     | 
-| November    | 0 hour     | 
+| December  5 | 1.75 hours | Read requirments and analyzed. Also took the starter quiz 
+| December  6 | 1.5 hours  | Worked on designing the classes
+| December  7 | 1.75 hours | Mostly finished design phase, main and imagepainter need work
+| December    | 0 hour     | 
+| December    | 0 hour     | 
+| December    | 0 hour     | 
+| December    | 0 hour     | 
 | TOTAL       | 0 hours    | *Your TOTAL should agree with your daily entries*
