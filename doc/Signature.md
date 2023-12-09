@@ -23,7 +23,7 @@
 | December  5 | 1.75 hours | Read requirments and analyzed. Also took the starter quiz 
 | December  6 | 1.5 hours  | Worked on designing the classes
 | December  7 | 1.75 hours | Mostly finished design phase, main and imagepainter need work
-| December    | 0 hour     | 
+| December  8 | 2 hour     | Basic implemetations for fractal and palette classes
 | December    | 0 hour     | 
 | December    | 0 hour     | 
 | December    | 0 hour     | 
