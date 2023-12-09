@@ -13,7 +13,7 @@ def main():
         fractal_info = parseFractal(sys.argv[1])
     else:
         fractal_info = defaultFrac
-    if len(sys.argv) > 1:
+    if len(sys.argv) > 2:
         palette_name = sys.argv[2]
     else:
         palette_name = None

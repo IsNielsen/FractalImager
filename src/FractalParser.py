@@ -4,7 +4,7 @@ def parseFractal(file_path):
     file = open(file_path, 'r')
     for line in file:
         # Continue to next line if a comment or blankline
-        if line.startswith('#') or not line:
+        if line.startswith('#') or not line.strip():
             continue
 
         line = line.lower()
