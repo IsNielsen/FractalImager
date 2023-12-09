@@ -2,7 +2,7 @@ from tkinter import Tk, Canvas, PhotoImage, mainloop
 import time
 import sys
 
-IMAGE_SIZE = 512
+
 STATUS_BAR_WIDTH = 34
 class ImagePainter:
     def __init__(self, fractal, palette, fractal_info):
@@ -11,10 +11,11 @@ class ImagePainter:
         self.iterations = fractal_info["iterations"]
         self.palette = palette
         self.fractal_info = fractal_info
+        self.size = fractal_info["pixels"]
+        self.pixels = fractal_info["pixels"]
 
     def statusbar(self, rows, cols):
-        portion = (IMAGE_SIZE - rows) / IMAGE_SIZE
-        pixels = (IMAGE_SIZE - rows) * IMAGE_SIZE
+        portion = (self.size - rows) / self.size
         status_percent = '{:>4.0%}'.format(portion)
         status_bar = '=' * int(STATUS_BAR_WIDTH * portion)
         status_bar = '{:<33}'.format(status_bar)
@@ -29,9 +30,9 @@ class ImagePainter:
 
         # Set up the GUI so that we can display the fractal image on the screen
         win = Tk()
-        img = PhotoImage(width=IMAGE_SIZE, height=IMAGE_SIZE)
-        canvas = Canvas(win, width=IMAGE_SIZE, height=IMAGE_SIZE, bg='#000000')
-        canvas.create_image((IMAGE_SIZE/2.0, IMAGE_SIZE/2.0), image=img, state="normal")
+        img = PhotoImage(width=self.pixels, height=self.pixels)
+        canvas = Canvas(win, width=self.size, height=self.size, bg='#000000')
+        canvas.create_image((self.size / 2.0, self.size / 2.0), image=img, state="normal")
         canvas.pack()
 
         minx = self.fractal_info['centerx'] - (self.fractal_info['axislength'] / 2.0)
@@ -40,16 +41,16 @@ class ImagePainter:
 
         # At this scale, how much length and height on the
         # imaginary plane does one pixel take?
-        pixelsize = abs(maxx - minx) / IMAGE_SIZE
+        pixelsize = abs(maxx - minx) / self.size
 
         max_iter = self.iterations
-        for row in range(IMAGE_SIZE, 0, -1):
+        for row in range(self.size, 0, -1):
             cc = []
-            for col in range(IMAGE_SIZE):
+            for col in range(self.size):
                 x = minx + col * pixelsize
                 y = miny + row * pixelsize
                 cc.append(self.palette.getColor(self.fractal.count(complex(x, y))))
-            img.put('{' + ' '.join(cc) + '}', to=(0, IMAGE_SIZE-row))
+            img.put('{' + ' '.join(cc) + '}', to=(0, self.size - row))
             win.update()  # display a row of pixels
             print(self.statusbar(row, col), end='\r', file=sys.stderr)  # the '\r' returns the cursor to the leftmost column
 

@@ -11,7 +11,7 @@ class PrimaryToBlack:
     allowing for extra to avoid an out of index error.
     """
     def __init__(self, count):
-        self.range = ceil(count / 5)
+        partial_range = ceil(count / 5) + 5
         red = colour.Color('red')
         yel = colour.Color('yellow')
         blu = colour.Color('blue')
@@ -19,19 +19,19 @@ class PrimaryToBlack:
 
         self.palette = []
 
-        for color in red.range_to(blk, self.range):
+        for color in red.range_to(blk, partial_range):
             self.palette.append(color.hex_l)
 
-        for color in list(blk.range_to(yel, self.range))[1:]:
+        for color in list(blk.range_to(yel, partial_range))[1:]:
             self.palette.append(color.hex_l)
 
-        for color in list(yel.range_to(blk, self.range))[1:]:
+        for color in list(yel.range_to(blk, partial_range))[1:]:
             self.palette.append(color.hex_l)
 
-        for color in list(blk.range_to(blu, self.range))[1:]:
+        for color in list(blk.range_to(blu, partial_range))[1:]:
             self.palette.append(color.hex_l)
 
-        for color in list(blu.range_to(blk, self.range))[1:]:
+        for color in list(blu.range_to(blk, partial_range))[1:]:
             self.palette.append(color.hex_l)
 
 

@@ -7,9 +7,10 @@ from FractalFactory import defaultFrac
 
 
 def main():
-
+    print(f"[{sys.argv}]{len(sys.argv)}")
     if len(sys.argv) > 1:
         #file = sys.argv[1]
+        print(sys.argv[1])
         fractal_info = parseFractal(sys.argv[1])
     else:
         fractal_info = defaultFrac
