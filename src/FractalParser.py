@@ -46,3 +46,4 @@ def safe_convert(obj, new_type):
         return new_type(obj)
     except ValueError:
         return None
+

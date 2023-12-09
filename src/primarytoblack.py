@@ -14,24 +14,26 @@ class PrimaryToBlack:
         self.range = ceil(count / 5)
         red = colour.Color('red')
         yel = colour.Color('yellow')
-        blu = colourColor('blue')
+        blu = colour.Color('blue')
+        blk = colour.Color('black')
 
         self.palette = []
 
-        for color in red.range_to(blk, 64):
+        for color in red.range_to(blk, self.range):
             self.palette.append(color.hex_l)
 
-        for color in list(blk.range_to(yel, 64))[1:]:
+        for color in list(blk.range_to(yel, self.range))[1:]:
             self.palette.append(color.hex_l)
 
-        for color in list(yel.range_to(blk, 64))[1:]:
+        for color in list(yel.range_to(blk, self.range))[1:]:
             self.palette.append(color.hex_l)
 
-        for color in list(blk.range_to(blu, 64))[1:]:
+        for color in list(blk.range_to(blu, self.range))[1:]:
             self.palette.append(color.hex_l)
 
-        for color in list(bly.range_to(blk, 64))[1:]:
+        for color in list(blu.range_to(blk, self.range))[1:]:
             self.palette.append(color.hex_l)
+
 
     def getColor(self, index):
         return self.palette[index]

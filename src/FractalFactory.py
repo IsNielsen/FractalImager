@@ -12,17 +12,9 @@ def makeFractal(fractalInfo):
 
 defaultFrac = {
     'type': 'mandelbrot',
-    'pixels': 640,
-    'axislength': 4.0,
-    'iterations': 100,
-    'min': {
-        'x': -2.0,
-        'y': -2.0
-    },
-    'max': {
-        'x': 2.0,
-        'y': 2.0
-    },
-    'pixelsize': 0.00625,
-    'imagename': 'mandelbrot.png'
+    'pixels': 256,
+    'centerx': 0.0,
+    'centery': 0.0,
+    'axislength': 3.0,
+    'iterations': 256
 }

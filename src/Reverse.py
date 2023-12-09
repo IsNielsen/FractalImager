@@ -19,3 +19,9 @@ class ReversePalette:
 
         for color in list(blu.range_to(cya, size)):
             self.secondpal.append(color.hex_l)
+
+        self.palette = [val for pair in zip(self.firstpal, self.secondpal) for val in pair]
+
+
+    def getColor(self, index):
+        return self.palette[index]
