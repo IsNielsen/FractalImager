@@ -1,5 +1,6 @@
 from Reverse import ReversePalette
 from pastels import Pastels
+from blackandwhite import BlackAndWhite
 
 
 def makePalette(fractal_info, name):
@@ -11,6 +12,8 @@ def makePalette(fractal_info, name):
         return ReversePalette(fractal_info["iterations"])
     if name == "primary":
         return Pastels(fractal_info["iterations"])
+    if name == "blackandwhite":
+        return BlackAndWhite(fractal_info["iterations"])
     if name is None:
         print("PaletteFactory: Creating default color palette")
         return Pastels(fractal_info["iterations"])
