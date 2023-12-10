@@ -2,7 +2,7 @@ import colour
 from math import ceil
 
 
-class PrimaryToBlack:
+class Pastels:
     """
     A lot of this is pulled directly from erik's lecture notes,
     however the ordering of colors has been changed as its only
@@ -12,7 +12,7 @@ class PrimaryToBlack:
     """
     def __init__(self, count):
         partial_range = ceil(count / 5) + 5
-        red = colour.Color('red')
+        red = colour.Color('pink')
         yel = colour.Color('yellow')
         blu = colour.Color('blue')
         blk = colour.Color('black')

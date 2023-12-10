@@ -1,6 +1,7 @@
 from Phoenix import PhoenixFractal
 from Mandelbrot import MandelbrotFractal
 from MandelbrotCubed import MandelbrotCubed
+from burningship import BurningShipFractal
 
 
 def makeFractal(fractal_info):
@@ -17,12 +18,29 @@ def makeFractal(fractal_info):
     if fractal_info["type"] == "mandelbrot3":
         return MandelbrotCubed(fractal_info)
 
+    if fractal_info["type"] == "burningship":
+        return BurningShipFractal(fractal_info)
 
 defaultFrac = {
     'type': 'mandelbrot',
-    'pixels': 256,
+    'pixels': 640,
     'centerx': 0.0,
     'centery': 0.0,
-    'axislength': 3.0,
-    'iterations': 256
+    'axislength': 5.0,
+    'iterations': 512
 }
+
+# defaultFrac = {
+#     'type': 'mandelbrot',
+#     'pixels': 640,
+#     'centerx': 0.0,
+#     'centery': 0.0,
+#     'axislength': 3.0,
+#     'iterations': 512
+# }
+# type: mandelbrot
+# pixels: 640
+# centerx: -1.0
+# centery: 0.0
+# axislength: 1.0
+# iterations: 256

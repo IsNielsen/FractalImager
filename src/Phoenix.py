@@ -8,17 +8,15 @@ class PhoenixFractal:
             if key not in fractal_info:
                 raise NotImplementedError(f"Missing key: {key}")
             fractal_info[key] = safe_convert(fractal_info[key], float)
+
         # Phoenix Constant
         self.phoenix = complex(fractal_info["preal"], fractal_info["pimag"])
+
         # Julia Constant
         self.c = complex(fractal_info["creal"], fractal_info["cimag"])
-        # Other fractal info
-        self.center = complex(fractal_info["centery"], fractal_info["centerx"])
-        self.axis_length = fractal_info["axislength"]
-        self.pixels = fractal_info["pixels"]
-        self.iterations = fractal_info["iterations"]
 
-        self.z = 0 + 0j
+        # Other fractal info
+        self.iterations = fractal_info["iterations"]
 
     def count(self, z):
         """
@@ -26,7 +24,6 @@ class PhoenixFractal:
         within the Phoenix fractal in the palette array
         """
 
-        z = (z - self.center)
         z = complex(z.imag, z.real)
         z_prev = 0 + 0j
 

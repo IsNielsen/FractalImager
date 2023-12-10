@@ -41,15 +41,20 @@ class ImagePainter:
 
         minx = centerx - (axislength / 2.0)
         miny = centery - (axislength / 2.0)
+        maxx = centerx + (axislength / 2.0)
 
-        pixelsize = axislength / self.size
+        pixelsize = axislength / self.pixels
 
         for row in range(self.size, 0, -1):
             cc = []
             for col in range(self.size):
                 x = minx + col * pixelsize
                 y = miny + row * pixelsize
-                cc.append(self.palette.getColor(self.fractal.count(complex(x, y))))
+
+                # cc.append(self.palette.getColor(self.fractal.count(complex(x, y))))
+                color = self.palette.getColor(self.fractal.count(complex(x, y)))
+                cc.append(color)
+
             img.put('{' + ' '.join(cc) + '}', to=(0, self.size - row))
             win.update()  # display a row of pixels
             print(self.statusbar(row), end='\r', file=sys.stderr)  # the '\r' returns the cursor to the leftmost column
