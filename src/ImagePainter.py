@@ -3,11 +3,10 @@ import time
 import sys
 
 
-STATUS_BAR_WIDTH = 34
 class ImagePainter:
-    def __init__(self, fractal, palette, fractal_info):
+    def __init__(self, fractal, palette, fractal_info, name="default"):
         self.fractal = fractal
-        self.name = fractal_info["type"]
+        self.name = name
         self.iterations = fractal_info["iterations"]
         self.palette = palette
         self.fractal_info = fractal_info
@@ -15,16 +14,16 @@ class ImagePainter:
         self.pixels = fractal_info["pixels"]
 
     def statusbar(self, rows):
+        width = 34
         portion = (self.size - rows) / self.size
         status_percent = '{:>4.0%}'.format(portion)
-        status_bar = '=' * int(STATUS_BAR_WIDTH * portion)
+        status_bar = '=' * int(width * portion)
         status_bar = '{:<33}'.format(status_bar)
         return ''.join(list(['[', status_percent, ' ', status_bar, ']']))
 
     def paint(self):
         """Paint a Fractal image into the TKinter PhotoImage canvas"""
 
-        print(f"Rendering {self.name} fractal")
         # Note the time of when we started so we can measure performance improvements
         before = time.time()
 
@@ -62,7 +61,7 @@ class ImagePainter:
         after = time.time()
         print(f"\nDone in {after - before:.3f} seconds!", file=sys.stderr)
         img.write(f"{self.name}.png")
-        print(f"Wrote picture {self.name}.png", file=sys.stderr)
+        print(f"Wrote image {self.name}.png", file=sys.stderr)
 
         print("Close the image window to exit the program", file=sys.stderr)
 

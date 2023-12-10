@@ -5,7 +5,8 @@ from burningship import BurningShipFractal
 
 
 def makeFractal(fractal_info):
-    if fractal_info is None:
+    if fractal_info["type"] == "default":
+        print("FractalFactory: Creating default fractal")
         return MandelbrotFractal(defaultFrac)
 
     if fractal_info["type"] == "phoenix":
@@ -22,11 +23,11 @@ def makeFractal(fractal_info):
         return BurningShipFractal(fractal_info)
 
 defaultFrac = {
-    'type': 'mandelbrot',
+    'type': 'default',
     'pixels': 640,
     'centerx': 0.0,
     'centery': 0.0,
-    'axislength': 5.0,
+    'axislength': 3.0,
     'iterations': 512
 }
 
