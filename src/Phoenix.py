@@ -1,22 +1,19 @@
+from SafeConvert import safe_convert
+
 class PhoenixFractal:
     def __init__(self, fractal_info):
-        # Julia Constant
-        if "creal" not in fractal_info:
-            raise NotImplementedError("Missing 'creal' parameter in .frac file")
-        if "cimag" not in fractal_info:
-            raise NotImplementedError("Missing 'cimag' parameter in .frac file")
-        self.c = complex(fractal_info["creal"], fractal_info["cimag"])
-
+        # check required info
+        required = ["cimag", "creal", "pimag", "preal"]
+        for key in required:
+            if key not in fractal_info:
+                raise NotImplementedError(f"Missing key: {key}")
+            fractal_info[key] = safe_convert(fractal_info[key], float)
         # Phoenix Constant
-        if "preal" not in fractal_info:
-            raise NotImplementedError("Missing 'preal' parameter in .frac file")
-        if "pimag" not in fractal_info:
-            raise NotImplementedError("Missing 'pimag' parameter in .frac file")
-
         self.phoenix = complex(fractal_info["preal"], fractal_info["pimag"])
-
+        # Julia Constant
+        self.c = complex(fractal_info["creal"], fractal_info["cimag"])
         # Other fractal info
-        self.center = complex(fractal_info["centery"], fractal_info["centery"])
+        self.center = complex(fractal_info["centery"], fractal_info["centerx"])
         self.axis_length = fractal_info["axislength"]
         self.pixels = fractal_info["pixels"]
         self.iterations = fractal_info["iterations"]
@@ -29,7 +26,7 @@ class PhoenixFractal:
         within the Phoenix fractal in the palette array
         """
 
-        z = (z - self.center) / (self.axis_length / 2)
+        z = (z - self.center)
         z = complex(z.imag, z.real)
         z_prev = 0 + 0j
 

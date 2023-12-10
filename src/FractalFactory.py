@@ -1,6 +1,6 @@
 from Phoenix import PhoenixFractal
 from Mandelbrot import MandelbrotFractal
-from SafeConvert import safe_convert
+from MandelbrotCubed import MandelbrotCubed
 
 
 def makeFractal(fractal_info):
@@ -8,15 +8,14 @@ def makeFractal(fractal_info):
         return MandelbrotFractal(defaultFrac)
 
     if fractal_info["type"] == "phoenix":
-        required = ["cimag", "creal", "pimag", "preal"]
-        for key in required:
-            if key not in fractal_info:
-                raise RuntimeError(f"Missing key: {key}")
-            fractal_info[key] = safe_convert(fractal_info[key], float)
+
         return PhoenixFractal(fractal_info)
 
     if fractal_info["type"] == "mandelbrot":
         return MandelbrotFractal(fractal_info)
+
+    if fractal_info["type"] == "mandelbrot3":
+        return MandelbrotCubed(fractal_info)
 
 
 defaultFrac = {

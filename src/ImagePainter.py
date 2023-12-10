@@ -14,7 +14,7 @@ class ImagePainter:
         self.size = fractal_info["pixels"]
         self.pixels = fractal_info["pixels"]
 
-    def statusbar(self, rows, cols):
+    def statusbar(self, rows):
         portion = (self.size - rows) / self.size
         status_percent = '{:>4.0%}'.format(portion)
         status_bar = '=' * int(STATUS_BAR_WIDTH * portion)
@@ -31,19 +31,19 @@ class ImagePainter:
         # Set up the GUI so that we can display the fractal image on the screen
         win = Tk()
         img = PhotoImage(width=self.pixels, height=self.pixels)
-        canvas = Canvas(win, width=self.size, height=self.size, bg='#000000')
+        canvas = Canvas(win, width=self.size, height=self.size, bg='#00FF00')
         canvas.create_image((self.size / 2.0, self.size / 2.0), image=img, state="normal")
         canvas.pack()
 
-        minx = self.fractal_info['centerx'] - (self.fractal_info['axislength'] / 2.0)
-        maxx = self.fractal_info['centerx'] + (self.fractal_info['axislength'] / 2.0)
-        miny = self.fractal_info['centery'] - (self.fractal_info['axislength'] / 2.0)
+        centerx = self.fractal_info["centerx"]
+        centery = self.fractal_info["centery"]
+        axislength = self.fractal_info["axislength"]
 
-        # At this scale, how much length and height on the
-        # imaginary plane does one pixel take?
-        pixelsize = abs(maxx - minx) / self.size
+        minx = centerx - (axislength / 2.0)
+        miny = centery - (axislength / 2.0)
 
-        max_iter = self.iterations
+        pixelsize = axislength / self.size
+
         for row in range(self.size, 0, -1):
             cc = []
             for col in range(self.size):
@@ -52,7 +52,7 @@ class ImagePainter:
                 cc.append(self.palette.getColor(self.fractal.count(complex(x, y))))
             img.put('{' + ' '.join(cc) + '}', to=(0, self.size - row))
             win.update()  # display a row of pixels
-            print(self.statusbar(row, col), end='\r', file=sys.stderr)  # the '\r' returns the cursor to the leftmost column
+            print(self.statusbar(row), end='\r', file=sys.stderr)  # the '\r' returns the cursor to the leftmost column
 
         after = time.time()
         print(f"\nDone in {after - before:.3f} seconds!", file=sys.stderr)
