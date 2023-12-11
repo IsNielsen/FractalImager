@@ -10,7 +10,7 @@ def makePalette(fractal_info, name):
     # for whatever palette is requested
     if name == "reverse":
         return ReversePalette(fractal_info["iterations"])
-    if name == "primary":
+    if name == "pastels":
         return Pastels(fractal_info["iterations"])
     if name == "blackandwhite":
         return BlackAndWhite(fractal_info["iterations"])

@@ -13,7 +13,7 @@ class ImagePainter:
         self.size = fractal_info["pixels"]
         self.pixels = fractal_info["pixels"]
 
-    def statusbar(self, rows):
+    def status_bar(self, rows):
         width = 34
         portion = (self.size - rows) / self.size
         status_percent = '{:>4.0%}'.format(portion)
