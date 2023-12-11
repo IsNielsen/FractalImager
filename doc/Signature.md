@@ -24,7 +24,7 @@
 | December  6 | 1.5 hours  | Worked on designing the classes
 | December  7 | 1.75 hours | Mostly finished design phase, main and imagepainter need work
 | December  8 | 2 hour     | Basic implemetations for fractal and palette classes
-| December  8 | 1.75 hours | Implemented everything, but theres so many bugs
-| December    | 0 hour     | 
-| December    | 0 hour     | 
-| TOTAL       | 0 hours    | *Your TOTAL should agree with your daily entries*
+| December  8 | 1.75 hours | Implemented almost everything, but theres so many bugs
+| December  9 | 1 hour     | Implemented final palettes and fractals
+| December 10 | 3 hour     | Testing and Unittests, fixed fractal functions that were buggy. Done?
+| TOTAL       | 12.75 hours| 
