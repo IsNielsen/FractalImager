@@ -40,7 +40,6 @@ class ImagePainter:
 
         minx = centerx - (axislength / 2.0)
         miny = centery - (axislength / 2.0)
-        maxx = centerx + (axislength / 2.0)
 
         pixelsize = axislength / self.pixels
 
@@ -56,7 +55,7 @@ class ImagePainter:
 
             img.put('{' + ' '.join(cc) + '}', to=(0, self.size - row))
             win.update()  # display a row of pixels
-            print(self.statusbar(row), end='\r', file=sys.stderr)  # the '\r' returns the cursor to the leftmost column
+            print(self.status_bar(row), end='\r', file=sys.stderr)  # the '\r' returns the cursor to the leftmost column
 
         after = time.time()
         print(f"\nDone in {after - before:.3f} seconds!", file=sys.stderr)

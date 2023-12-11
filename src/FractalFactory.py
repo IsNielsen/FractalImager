@@ -31,17 +31,3 @@ defaultFrac = {
     'iterations': 512
 }
 
-# defaultFrac = {
-#     'type': 'mandelbrot',
-#     'pixels': 640,
-#     'centerx': 0.0,
-#     'centery': 0.0,
-#     'axislength': 3.0,
-#     'iterations': 512
-# }
-# type: mandelbrot
-# pixels: 640
-# centerx: -1.0
-# centery: 0.0
-# axislength: 1.0
-# iterations: 256

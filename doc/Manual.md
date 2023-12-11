@@ -1,117 +1,97 @@
 # Fractal Visualizer User Manual
 
-*The following is an basic manual outline written by chatgpt, with added clarification when needed and input/output blocks based on ones given by Prof. Falor:*
+*The following is an basic manual outline by chatgpt, with all the information about the program written by a human*
 
 ## Overview:
 
 The Fractal Renderer is a command-line tool designed to generate and save images of various fractals. 
 This manual provides an overview of how to use the main.py script, including information on displaying choices, 
-handling invalid arguments, and saving images.
+color palettes, handling invalid arguments, and saving images.
 
 ## Usage
 
-To correctly use this program, you mush be in the cs1440-assn4 directory. The command format is as follows:
+[NOTE]: *This Manual assumes that your current working directory is just above `src/`*
 
 ```bash
-python [FILEPATH]/main.py [FRACTAL_NAME]
+python [FILEPATH]/main.py [FRACTALPATH].frac [PalettePath].py
 ```
 
-[NOTE]: *The following commands assume that your current working directory is just above `src/` (in this case: `cs1440-nielsen-isaac-assn4`)*
-
+A list of fractals and palettes can be found below.
 
 Correct usage will display a fractal image, save the image as a `.png` to the current directory, and print the following:
 
 ```bash
-$ python src/main.py peacock
-Rendering peacock fractal
+$ python src/main.py data/phoenix.frac pastels
 [100% =================================]
-Done in 5.361 seconds!
-Saved image to file peacock.png
+Done in 1.750 seconds!
+Wrote image phoenix.png
 Close the image window to exit the program
 
 ```
 
-When no argument is supplied to main.py, the available fractal choices are displayed to the user. 
-To execute the script without specifying a fractal, use the following command:
+When no argument is supplied to main.py, a default fractal will be printed using a default palette:
 
 ```bash
 $ python src/main.py
 ```
 
-The output will prompt the user to provide the name of a fractal as an argument, displaying the available choices.
+This will print a default mandelbrot fractal and the output will look like this:
 
 ```bash
-Please provide the name of a fractal as an argument
-    phoenix
-    peacock
-    monkey-knife-fight
-    shrimp-cocktail
-    elephants
-    leaf
-    mandelbrot
-    mandelbrot-zoomed
-    seahorse
-    spiral0
-    spiral1
-    starfish
+FractalFactory: Creating default fractal
+PaletteFactory: Creating default color palette
+[100% =================================]
+Done in 6.111 seconds!
+Wrote image default.png
+Close the image window to exit the program
 ```
 
-## Handling Invalid Arguments
-
-If an invalid fractal name is provided as an argument, the script will report an error and display the usage message with the available choices. For example:
+The program reads the first argument after the main.py call as a fractal, so it will not print a default fractal with a specified palete.
+However the user can request a fractal and not specify a palette, which will return the default palette. Doing this will look like the following:
 
 ```bash
-$ python src/main.py mustache
-ERROR: mustache is not a valid fractal
-Please choose one of the following:
-    phoenix
-    peacock
-    monkey-knife-fight
-    shrimp-cocktail
-    elephants
-    leaf
-    mandelbrot
-    mandelbrot-zoomed
-    seahorse
-    spiral0
-    spiral1
-    starfish
+$ python src/main.py data/phoenix.frac
+PaletteFactory: Creating default color palette
+[100% =================================]
+Done in 1.388 seconds!
+Wrote image phoenix.png
+Close the image window to exit the program
 ```
 
-## Case Sensitivity
+## Handling Invalid Fractals
 
-The Fractal Renderer only accepts lower-case arguments. If a capitalized fractal name is provided, it will be rejected with an error message and the available choices will be displayed.
+If an invalid fractal path is given, the program will crash with a FileNotFoundError. For example:
 
 ```bash
-$ python src/main.py Mandelbrot
-ERROR: Mandelbrot is not a valid fractal
-Please choose one of the following:
-    phoenix
-    peacock
-    monkey-knife-fight
-    shrimp-cocktail
-    elephants
-    leaf
-    mandelbrot
-    mandelbrot-zoomed
-    seahorse
-    spiral0
-    spiral1
-    starfish
+$ python src/main.py data/notvalid.frac
+...
+...
+FileNotFoundError: [Errno 2] No such file or directory: 'data/notvalid.frac'
+```
+
+## Invalid Palettes
+
+If an invalid palette is requested, the program will crash with an NotImplementedError:
+
+```bash
+$ python src/main.py data/phoenix.frac nonexistant
+...
+...
+NotImplementedError: Invalid palette requested
 
 ```
 
 ## Extra Arguments
 
-Any extra arguments provided after the fractal name will be ignored. For example:
+Any extra arguments provided after fractal and palette will be ignored. For example:
 
 ```bash
-$ python src/main.py mandelbrot extra arguments
-Rendering mandelbrot fractal
+$ python src/main.py data/phoenix.frac pastels extra ignored
 [100% =================================]
-Done in 3.152 seconds!
-Saved image to file mandelbrot.png
+Done in 1.373 seconds!
+Wrote image phoenix.png
 Close the image window to exit the program
+
 ```
 
 ## Image Saving
@@ -121,3 +101,73 @@ fractal_name.png. Existing images with the same filename in current working dire
 
 Feel free to explore the diverse fractal options and create stunning images with the Fractal Renderer!
 
+# List of valid Fractals and Palettes:
+
+## Fractals
+
+These are the fractals that can currently be used, however in the `data/` folder there are more `.frac` files.
+To use these, a new fractal type will have to be implemented.
+
+This list will will just have the fractal names and not the file paths. Assuming the users current working directory is above `src/`
+and `data/`, the file path to use them will be `data/[FRACTALNAME].frac/`.
+
+-   Mandelbrot Fractals:
+    -   8-points
+    -   branches@0064
+    -   branches@0128
+    -   branches@0256
+    -   branches@0512
+    -   branches@1024
+    -   coral
+    -   elephants
+    -   enhance
+    -   leaf
+    -   mandelbrot
+    -   mandelbrot-zoomed
+    -   minibrot
+    -   rabbit-hole
+    -   seahorse
+    -   spiral-jetty
+    -   spiral0
+    -   spiral1
+    -   spiral1@0256
+    -   spiral1@0512
+    -   spiral1@1024
+    -   starfish
+    -   tip0
+    -   tip1
+    -   tip2
+    -   tip3
+    -   tip4
+    -   wholly-squid
+
+-   Higher Powers of Mandelbrot
+    -   mandel-pow3
+
+-   Phoenix Fractals:
+    -	feathers
+    -   monkey-knife-fight
+    -   oriental-dragons
+    -   phoenix
+    -   shrimp-cocktail
+
+-   Burning Ship Fractals:
+    -   burningship
+    -   burningship-prow
+    -   burningship-stern
+
+## Palettes
+
+When choosing a palette, type it as shown in all lowercase.
+
+-	pastels
+-	blackandwhite
+-	reverse	
+
+
+
+
+## 
+##
+
+#### Thank you for reading this! Have fun drawing fractals!

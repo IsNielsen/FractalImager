@@ -12,7 +12,7 @@ class BurningShipFractal:
         to guess whether it is in the Burning Ship fractal set.
         """
         z = complex(0, 0)
-        for i in range(self.iterations - 1, -1, -1):
+        for i in range(self.iterations):
             z = complex(abs(z.real), abs(z.imag))**2 - c
             if abs(z) > 2.0:
                 return i
